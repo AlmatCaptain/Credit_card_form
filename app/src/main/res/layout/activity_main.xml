@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#fafafa"
+    tools:context=".view.MainActivity"
+    android:id="@+id/rootView">
+
+    <EditText
+        android:id="@+id/et_card_name"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/edit_text_back"
+        android:ems="10"
+        android:hint="Name on Card"
+        android:inputType="textPersonName"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <EditText
+        android:id="@+id/et_card_cvv"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="8dp"
+        android:background="@drawable/edit_text_back"
+        android:ems="10"
+        android:hint="***"
+        android:inputType="numberPassword"
+        android:maxLength="3"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/et_card_number_4"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/et_card_date"
+        app:layout_constraintTop_toTopOf="@+id/et_card_date" />
+
+    <EditText
+        android:id="@+id/et_card_date"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/edit_text_back"
+        android:ems="10"
+        android:hint="MM/YY"
+        android:inputType="number"
+        android:maxLength="5"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/btn_add_card"
+        app:layout_constraintEnd_toStartOf="@+id/et_card_cvv"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/et_card_number_1"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <EditText
+        android:id="@+id/et_card_number_1"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="2dp"
+        android:background="@drawable/edit_text_back"
+        android:ems="10"
+        android:inputType="number"
+        android:maxLength="4"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView3"
+        app:layout_constraintEnd_toStartOf="@+id/et_card_number_2"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/et_card_name"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <EditText
+        android:id="@+id/et_card_number_3"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
+        android:background="@drawable/edit_text_back"
+        android:ems="10"
+        android:inputType="number"
+        android:maxLength="4"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/et_card_number_4"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/et_card_number_2"
+        app:layout_constraintTop_toTopOf="@+id/et_card_number_2" />
+
+    <EditText
+        android:id="@+id/et_card_number_4"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="2dp"
+        android:background="@drawable/edit_text_back"
+        android:ems="10"
+        android:inputType="number"
+        android:maxLength="4"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        app:layout_constraintEnd_toEndOf="@+id/et_card_name"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/et_card_number_3"
+        app:layout_constraintTop_toTopOf="@+id/et_card_number_3" />
+
+    <EditText
+        android:id="@+id/et_card_number_2"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginEnd="2dp"
+        android:background="@drawable/edit_text_back"
+        android:ems="10"
+        android:inputType="number"
+        android:maxLength="4"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/et_card_number_3"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/et_card_number_1"
+        app:layout_constraintTop_toTopOf="@+id/et_card_number_1" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="CARD NUMBER"
+        app:layout_constraintBottom_toTopOf="@+id/et_card_number_1"
+        app:layout_constraintStart_toStartOf="@+id/et_card_number_1"
+        app:layout_constraintTop_toBottomOf="@+id/et_card_name" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="EXPIRE DATE"
+        app:layout_constraintBottom_toTopOf="@+id/et_card_date"
+        app:layout_constraintStart_toStartOf="@+id/et_card_date"
+        app:layout_constraintTop_toBottomOf="@+id/et_card_number_1" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="SECURITY CODE"
+        app:layout_constraintStart_toStartOf="@+id/et_card_cvv"
+        app:layout_constraintTop_toTopOf="@+id/textView3" />
+
+    <Button
+        android:id="@+id/btn_add_card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="ADD CARD"
+        android:background="@drawable/rounded_rectangle"
+        android:textColor="#ffffff"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/et_card_cvv"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/et_card_date"
+        app:layout_constraintTop_toBottomOf="@+id/et_card_date" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
