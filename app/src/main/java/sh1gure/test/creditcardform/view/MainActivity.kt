@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
                     etCardDate.setText(state.date)
                 }
                 is ProgressState.DataForNumber ->{
-                    etCardNumber1.setText(state.number)
+                    etCardNumber.setText(state.number)
                 }
                 is ProgressState.Empty -> {}
             }
@@ -52,7 +52,7 @@ class MainActivity : AppCompatActivity() {
     private fun initListeners() {
         btn_add_card.setOnClickListener {
             val cardNumber =
-                etCardNumber1.text.toString()
+                etCardNumber.text.toString()
             val cardDate = etCardDate.text.toString()
             val cardCVV = etCardCvv.text.toString()
             val cardName = etCardName.text.toString()
@@ -71,15 +71,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initEdit() {
-        etCardNumber1.onTextChanged {
-            viewModel.cursorForNumber(editTextCurrent = etCardNumber1)
+        etCardNumber.onTextChanged {
+            viewModel.cursorForNumber(editTextCurrent = etCardNumber)
         }
         etCardDate.onTextChanged {
             viewModel.cursorForDate(editTextCurrent = etCardDate)
         }
-        etCardNumber1.setOnKeyListener { _, keyCode, _ ->
+        etCardNumber.setOnKeyListener { _, keyCode, _ ->
             if (keyCode == KeyEvent.KEYCODE_DEL) {
-                viewModel.delete(etCardNumber1)
+                viewModel.delete(etCardNumber)
             }
             false
         }

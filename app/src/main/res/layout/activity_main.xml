@@ -29,7 +29,7 @@
             android:imeOptions="actionNext"
             android:inputType="textPersonName"
             android:maxLength="@integer/max_length_name"
-            android:nextFocusForward="@+id/etCardNumber1"
+            android:nextFocusForward="@+id/etCardNumber"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             app:layout_constraintBottom_toTopOf="@+id/textView2"
@@ -51,7 +51,7 @@
             android:maxLength="@integer/max_length_cvv"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
-            app:layout_constraintEnd_toEndOf="@+id/etCardNumber1"
+            app:layout_constraintEnd_toEndOf="@+id/etCardNumber"
             app:layout_constraintStart_toEndOf="@+id/etCardDate"
             app:layout_constraintTop_toTopOf="@+id/etCardDate" />
 
@@ -70,12 +70,13 @@
             app:layout_constraintBottom_toTopOf="@+id/btn_add_card"
             app:layout_constraintEnd_toStartOf="@+id/etCardCvv"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="@+id/etCardNumber1"
+            app:layout_constraintStart_toStartOf="@+id/etCardNumber"
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
         <sh1gure.test.creditcardform.view.CustomEditText
-            android:id="@+id/etCardNumber1"
+            android:id="@+id/etCardNumber"
             android:layout_width="0dp"
+            android:paddingStart="16dp"
             android:layout_height="50dp"
             android:background="@drawable/edit_text_fields"
             android:inputType="number"
@@ -95,8 +96,8 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             android:text="@string/card_number"
-            app:layout_constraintBottom_toTopOf="@+id/etCardNumber1"
-            app:layout_constraintStart_toStartOf="@+id/etCardNumber1"
+            app:layout_constraintBottom_toTopOf="@+id/etCardNumber"
+            app:layout_constraintStart_toStartOf="@+id/etCardNumber"
             app:layout_constraintTop_toBottomOf="@+id/etCardName" />
 
         <TextView
@@ -108,7 +109,7 @@
             android:text="@string/expire_date"
             app:layout_constraintBottom_toTopOf="@+id/etCardDate"
             app:layout_constraintStart_toStartOf="@+id/etCardDate"
-            app:layout_constraintTop_toBottomOf="@+id/etCardNumber1" />
+            app:layout_constraintTop_toBottomOf="@+id/etCardNumber" />
 
         <TextView
             android:id="@+id/textView4"
