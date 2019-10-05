@@ -6,19 +6,17 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.google.gson.Gson
-import sh1gure.test.creditcardform.application.CardForm
 import sh1gure.test.creditcardform.utils.ProgressState
 import sh1gure.test.creditcardform.model.Model
-import sh1gure.test.creditcardform.utils.ResourceProvider
 
-class CardViewModel(
-    private val mResourceProvider: ResourceProvider
-) : ViewModel(), LifecycleObserver {
+class CardViewModel : ViewModel(), LifecycleObserver {
+    private val spaces = "          "
     private val progressState: MutableLiveData<ProgressState> = MutableLiveData()
 
     fun addCard(cardNumber: String, cardDate: String, cardCVV: String, cardName: String) {
-        if (validation(cardNumber, cardDate, cardCVV)) {
-            val card = Model(cardNumber, cardDate, cardCVV, cardName)
+        val cardNumberEdited = cardNumber.replace(" ","")
+        if (validation(cardNumberEdited, cardDate, cardCVV)) {
+            val card = Model(cardNumberEdited, cardDate, cardCVV, cardName)
             val gson = Gson()
             val dataJ = gson.toJson(card)
             progressState.postValue(ProgressState.DataForAllert(dataJ))
@@ -27,30 +25,50 @@ class CardViewModel(
         }
     }
 
-    fun cursorJump(editTextCurrent: EditText, resourceId: Int, editTextNext: EditText) {
-        val length = mResourceProvider.getInteger(resourceId)
-        if (editTextCurrent.length() == length) {
-            editTextCurrent.clearFocus()
-            editTextNext.requestFocus()
-            editTextNext.isCursorVisible = true
-        }
-    }
-
-    fun hideKeyboard(editTextCurrent: EditText, resourceId: Int) {
-        if (editTextCurrent.length() == resourceId)
-            progressState.postValue(ProgressState.HideKeyBoard)
-    }
-
-    fun cursorForDate(editTextCurrent: EditText, resourceId: Int, editTextNext: EditText) {
+    fun cursorForDate(editTextCurrent: EditText) {
         val data = editTextCurrent.text.toString()
-        when {
-            editTextCurrent.length() == 3 -> {dateChange(date = data)}
-            editTextCurrent.length() == 5 -> { cursorJump(editTextCurrent = editTextCurrent, resourceId = resourceId, editTextNext = editTextNext) }
+        if (editTextCurrent.length() == 3)
+            dateChange(date = data)
+    }
+
+
+    fun cursorForNumber(editTextCurrent: EditText) {
+        val data = editTextCurrent.text.toString()
+        when (editTextCurrent.length()) {
+            4 -> {numberDivider(data)}
+            16 -> {fixTypo(data)}
+            18 -> {numberDivider(data)}
+            32 -> {numberDivider(data)}
         }
+    }
+
+    private fun fixTypo(data: String){
+        if (!data.contains(' ')){
+            val dataC = data.substring(0,4) + spaces + data.substring(4,8) + spaces + data.substring(8, 12) + spaces + data.substring(12,16)
+            progressState.postValue(ProgressState.DataForNumber(dataC))
+        }
+    }
+
+    private fun numberDivider(data: String){
+        progressState.postValue(ProgressState.DataForNumber(number = data + spaces))
+    }
+
+    fun delete(editTextCurrent: EditText){
+        val data = editTextCurrent.text.toString()
+        when (editTextCurrent.length()) {
+            14 -> {onDeleteChange(data, 15)}
+            28 -> {onDeleteChange(data, 29)}
+            42 -> {onDeleteChange(data, 43)}
+        }
+    }
+
+    private fun onDeleteChange(data: String, position: Int){
+        val dataC = data.substring(0, position - 11)
+        progressState.postValue(ProgressState.DataForNumber(dataC))
     }
 
     private fun dateChange(date: String) {
-        val dateCheck = if (date.substring(0,2).toInt() > 12) {
+        val dateCheck = if (date.substring(0, 2).toInt() > 12) {
             "12/" + date.substring(2, date.length)
         } else {
             date.substring(0, 2) + "/" + date.substring(2, date.length)

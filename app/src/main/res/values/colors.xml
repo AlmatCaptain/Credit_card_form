@@ -6,4 +6,5 @@
 
     <color name="borderColor">#000000</color>
     <color name="background_color">#ffffff</color>
+    <color name="background_app_color">#fafafa</color>
 </resources>

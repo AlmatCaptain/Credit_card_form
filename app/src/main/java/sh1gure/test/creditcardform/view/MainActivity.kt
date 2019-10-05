@@ -2,7 +2,6 @@ package sh1gure.test.creditcardform.view
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.Observer
@@ -13,11 +12,13 @@ import sh1gure.test.creditcardform.viewmodel.CardViewModel
 import sh1gure.test.creditcardform.viewmodel.ViewModelFactory
 import sh1gure.test.creditcardform.R
 import sh1gure.test.creditcardform.utils.extentions.onTextChanged
+import android.view.KeyEvent
+
 
 class MainActivity : AppCompatActivity() {
 
     private val viewModel: CardViewModel by lazy {
-        ViewModelProviders.of(this, ViewModelFactory(application)).get(CardViewModel::class.java)
+        ViewModelProviders.of(this, ViewModelFactory()).get(CardViewModel::class.java)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,15 +41,8 @@ class MainActivity : AppCompatActivity() {
                 is ProgressState.DataForDate -> {
                     etCardDate.setText(state.date)
                 }
-                is ProgressState.HideKeyBoard -> {
-                    etCardCvv.isCursorVisible = false
-                    val inputManager: InputMethodManager =
-                        getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-                    inputManager.hideSoftInputFromWindow(
-                        currentFocus?.windowToken,
-                        InputMethodManager.SHOW_FORCED
-                    )
-                    etCardCvv.clearFocus()
+                is ProgressState.DataForNumber ->{
+                    etCardNumber1.setText(state.number)
                 }
                 is ProgressState.Empty -> {}
             }
@@ -58,7 +52,7 @@ class MainActivity : AppCompatActivity() {
     private fun initListeners() {
         btn_add_card.setOnClickListener {
             val cardNumber =
-                etCardNumber1.text.toString() + etCardNumber2.text.toString() + etCardNumber3.text.toString() + etCardNumber4.text.toString()
+                etCardNumber1.text.toString()
             val cardDate = etCardDate.text.toString()
             val cardCVV = etCardCvv.text.toString()
             val cardName = etCardName.text.toString()
@@ -78,23 +72,17 @@ class MainActivity : AppCompatActivity() {
 
     private fun initEdit() {
         etCardNumber1.onTextChanged {
-            viewModel.cursorJump(editTextCurrent = etCardNumber1, resourceId = R.integer.max_length_card_number_field, editTextNext = etCardNumber2)
-        }
-        etCardNumber2.onTextChanged {
-            viewModel.cursorJump(editTextCurrent = etCardNumber2, resourceId = R.integer.max_length_card_number_field, editTextNext = etCardNumber3)
-        }
-        etCardNumber3.onTextChanged {
-            viewModel.cursorJump(editTextCurrent = etCardNumber3, resourceId = R.integer.max_length_card_number_field, editTextNext = etCardNumber4
-            )
-        }
-        etCardNumber4.onTextChanged {
-            viewModel.cursorJump(editTextCurrent = etCardNumber4, resourceId = R.integer.max_length_card_number_field, editTextNext =  etCardDate)
+            viewModel.cursorForNumber(editTextCurrent = etCardNumber1)
         }
         etCardDate.onTextChanged {
-            viewModel.cursorForDate(editTextCurrent = etCardDate, resourceId = R.integer.max_length_date, editTextNext = etCardCvv)
+            viewModel.cursorForDate(editTextCurrent = etCardDate)
         }
-        etCardCvv.onTextChanged {
-            viewModel.hideKeyboard(editTextCurrent = etCardCvv, resourceId = R.integer.max_length_cvv)
+        etCardNumber1.setOnKeyListener { _, keyCode, _ ->
+            if (keyCode == KeyEvent.KEYCODE_DEL) {
+                viewModel.delete(etCardNumber1)
+            }
+            false
         }
+
     }
 }
