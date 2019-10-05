@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item type="integer" name="max_length_card_number_field">4</item>
+    <item type="integer" name="max_length_date">5</item>
+    <item type="integer" name="max_length_cvv">3</item>
+    <item type="integer" name="max_length_name">19</item>
+</resources>

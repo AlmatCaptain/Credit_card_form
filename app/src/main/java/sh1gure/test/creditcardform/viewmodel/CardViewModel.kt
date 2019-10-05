@@ -1,59 +1,84 @@
 package sh1gure.test.creditcardform.viewmodel
 
+import android.view.ViewGroup
 import android.widget.EditText
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import sh1gure.test.creditcardform.ProgressState
+import com.google.gson.Gson
+import sh1gure.test.creditcardform.application.CardForm
+import sh1gure.test.creditcardform.utils.ProgressState
 import sh1gure.test.creditcardform.model.Model
+import sh1gure.test.creditcardform.utils.ResourceProvider
 
-class CardViewModel: ViewModel(), LifecycleObserver {
-
+class CardViewModel(
+    private val mResourceProvider: ResourceProvider
+) : ViewModel(), LifecycleObserver {
     private val progressState: MutableLiveData<ProgressState> = MutableLiveData()
-    private var validationArray = arrayListOf<Int>()
-    private val checkArray = arrayListOf(0,1,2,3,4,5)
 
-    fun addCard(cardNumber: String, cardDate: String, cardCVV: String, cardName: String){
-        if(validation()){
+    fun addCard(cardNumber: String, cardDate: String, cardCVV: String, cardName: String) {
+        if (validation(cardNumber, cardDate, cardCVV)) {
             val card = Model(cardNumber, cardDate, cardCVV, cardName)
-            progressState.postValue(ProgressState.DataForAllert(card))
-        }else{
+            val gson = Gson()
+            val dataJ = gson.toJson(card)
+            progressState.postValue(ProgressState.DataForAllert(dataJ))
+        } else {
             progressState.postValue(ProgressState.NotValid)
         }
     }
 
-    fun cursorJump(editTextCurrent: EditText, number: Int, editTextNext: EditText, fieldId: Int) {
-        if (editTextCurrent.length() == number) {
+    fun cursorJump(editTextCurrent: EditText, resourceId: Int, editTextNext: EditText) {
+        val length = mResourceProvider.getInteger(resourceId)
+        if (editTextCurrent.length() == length) {
             editTextCurrent.clearFocus()
             editTextNext.requestFocus()
             editTextNext.isCursorVisible = true
-            pushFilled(fieldId)
         }
     }
 
-    fun dateChange(date: String){
-        val dateCheck = if(date.toInt()>12){
-            "12/"
-        }else {
-            "$date/"
+    fun hideKeyboard(editTextCurrent: EditText, resourceId: Int) {
+        if (editTextCurrent.length() == resourceId)
+            progressState.postValue(ProgressState.HideKeyBoard)
+    }
+
+    fun cursorForDate(editTextCurrent: EditText, resourceId: Int, editTextNext: EditText) {
+        val data = editTextCurrent.text.toString()
+        when {
+            editTextCurrent.length() == 3 -> {dateChange(date = data)}
+            editTextCurrent.length() == 5 -> { cursorJump(editTextCurrent = editTextCurrent, resourceId = resourceId, editTextNext = editTextNext) }
         }
-        progressState.postValue(ProgressState.DataForDate(dateCheck))
     }
 
-    fun getCardData(): MutableLiveData<ProgressState>{
-        return  progressState
+    private fun dateChange(date: String) {
+        val dateCheck = if (date.substring(0,2).toInt() > 12) {
+            "12/" + date.substring(2, date.length)
+        } else {
+            date.substring(0, 2) + "/" + date.substring(2, date.length)
+        }
+        progressState.postValue(ProgressState.DataForDate(date = dateCheck))
     }
 
-    fun pushFilled(id: Int){
-        validationArray.add(id)
+    fun getCardData(): MutableLiveData<ProgressState> {
+        return progressState
     }
 
-    private fun validation():Boolean{
-        return validationArray.containsAll(checkArray)
+    private fun validation(cardNumber: String, cardDate: String, cardCVV: String): Boolean {
+        return (cardNumber.length == 16 && cardDate.length == 5 && cardCVV.length == 3)
     }
 
-    fun clear(){
-        validationArray.clear()
-    }
+    fun clearForm(viewGroup: ViewGroup) {
+        var i = 0
+        val count = viewGroup.childCount
+        while (i < count) {
+            val view = viewGroup.getChildAt(i)
+            if (view is EditText) {
+                view.setText("")
+            }
 
+            if (view is ViewGroup && view.childCount > 0)
+                clearForm(view)
+            ++i
+        }
+        progressState.postValue(ProgressState.Empty)
+    }
 }

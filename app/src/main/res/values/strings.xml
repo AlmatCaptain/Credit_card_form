@@ -1,3 +1,12 @@
 <resources>
     <string name="app_name">CardSample</string>
+    <string name="card_number">CARD NUMBER</string>
+    <string name="expire_date">EXPIRE DATE</string>
+    <string name="security_code">SECURITY CODE</string>
+    <string name="add_card">ADD CARD</string>
+    <string name="mm_yy">MM/YY</string>
+    <string name="cvv_text">***</string>
+    <string name="name_on_card">Name on Card</string>
+    <string name="card_number_L">CARD NUMBER</string>
+    <string name="mm_yy_expiration_date_L">MM/YY(Expire date)</string>
 </resources>
